@@ -88,6 +88,10 @@ namespace PHR_Forms
                     UserSession.UserName = row["NAME"].ToString();
 
                     MessageBox.Show($"{UserSession.UserName}님 환영합니다!", "로그인 성공");
+
+                    // [테스트용] 바로 내 정보 수정창 띄우기
+                    MemberEditForm editForm = new MemberEditForm();
+                    editForm.ShowDialog();
                 }
                 else
                 {
