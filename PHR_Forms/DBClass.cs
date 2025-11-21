@@ -114,6 +114,22 @@ namespace PHR_Project
             }
         }
 
+        public void ExecuteNonQuery(string query)
+        {
+            try
+            {
+                if (connection.State != ConnectionState.Open)
+                    connection.Open();
+
+                OracleCommand cmd = new OracleCommand(query, connection);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public void CloseConnection()
         {
             if (connection != null && connection.State == ConnectionState.Open)
