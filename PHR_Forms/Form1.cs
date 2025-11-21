@@ -22,35 +22,33 @@ namespace PHR_Forms
         {
             try
             {
+                dbc.DB_Open("select count(*) from MEMBER_INFO", "CHECK_TABLE");
+                return;
+            }
+            catch (Exception)
+            {
                 try
                 {
-                    dbc.ExecuteNonQuery("DROP TABLE MEMBER_INFO");
+                    string createSql = @"
+                        CREATE TABLE MEMBER_INFO (
+                            MEMBER_ID NUMBER(10) PRIMARY KEY,
+                            NAME VARCHAR2(50) NOT NULL,
+                            BIRTH_DATE DATE,
+                            GENDER VARCHAR2(10),
+                            EMAIL VARCHAR2(100) NOT NULL UNIQUE,
+                            CONTACT VARCHAR2(20),
+                            JOIN_DATE DATE DEFAULT SYSDATE,
+                            PASSWORD VARCHAR2(50) NOT NULL
+                        )";
+                    dbc.ExecuteNonQuery(createSql);
+
+                    string insertSql = "INSERT INTO MEMBER_INFO (MEMBER_ID, NAME, EMAIL, CONTACT, PASSWORD) VALUES (1001, '홍길동', 'hong@test.com', '010-1234-5678', '1234')";
+                    dbc.ExecuteNonQuery(insertSql);
                 }
-                catch
+                catch (Exception ex)
                 {
-                    // 테이블이 없어서 삭제 실패한 경우는 그냥 무시하고 넘어감
+                    MessageBox.Show("DB 초기화 중 오류: " + ex.Message);
                 }
-
-                string createSql = @"
-                    CREATE TABLE MEMBER_INFO (
-                        MEMBER_ID NUMBER(10) PRIMARY KEY,
-                        NAME VARCHAR2(50) NOT NULL,
-                        BIRTH_DATE DATE,
-                        GENDER VARCHAR2(10),
-                        EMAIL VARCHAR2(100) NOT NULL UNIQUE,
-                        CONTACT VARCHAR2(20),
-                        JOIN_DATE DATE DEFAULT SYSDATE,
-                        PASSWORD VARCHAR2(50) NOT NULL
-                    )";
-                dbc.ExecuteNonQuery(createSql);
-
-                string insertSql = "INSERT INTO MEMBER_INFO (MEMBER_ID, NAME, EMAIL, CONTACT, PASSWORD) VALUES (1001, '홍길동', 'hong@test.com', '010-1234-5678', '1234')";
-                dbc.ExecuteNonQuery(insertSql);
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("DB 초기화 중 오류: " + ex.Message);
             }
         }
 
@@ -67,7 +65,6 @@ namespace PHR_Forms
                     return;
                 }
 
-                
                 string query = "select * from MEMBER_INFO where MEMBER_ID = :id and PASSWORD = :pw";
 
                 dbc.DBAdapter = new OracleDataAdapter();

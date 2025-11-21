@@ -101,35 +101,35 @@
             // 
             this.txtId.Location = new System.Drawing.Point(364, 90);
             this.txtId.Name = "txtId";
-            this.txtId.Size = new System.Drawing.Size(130, 28);
+            this.txtId.Size = new System.Drawing.Size(181, 28);
             this.txtId.TabIndex = 2;
             // 
             // txtPw
             // 
             this.txtPw.Location = new System.Drawing.Point(364, 138);
             this.txtPw.Name = "txtPw";
-            this.txtPw.Size = new System.Drawing.Size(130, 28);
+            this.txtPw.Size = new System.Drawing.Size(181, 28);
             this.txtPw.TabIndex = 2;
             // 
             // txtName
             // 
             this.txtName.Location = new System.Drawing.Point(364, 195);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(130, 28);
+            this.txtName.Size = new System.Drawing.Size(181, 28);
             this.txtName.TabIndex = 2;
             // 
             // txtPhone
             // 
             this.txtPhone.Location = new System.Drawing.Point(364, 248);
             this.txtPhone.Name = "txtPhone";
-            this.txtPhone.Size = new System.Drawing.Size(130, 28);
+            this.txtPhone.Size = new System.Drawing.Size(181, 28);
             this.txtPhone.TabIndex = 2;
             // 
             // txtEmail
             // 
             this.txtEmail.Location = new System.Drawing.Point(364, 305);
             this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(130, 28);
+            this.txtEmail.Size = new System.Drawing.Size(181, 28);
             this.txtEmail.TabIndex = 2;
             // 
             // btnRegist
