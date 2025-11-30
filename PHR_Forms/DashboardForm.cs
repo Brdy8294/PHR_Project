@@ -31,33 +31,36 @@ namespace PHR_Forms
 
         private void LoadDashboard(string orderBySql)
         {
-            string connStr =
-                "User Id=YOUR_ID; Password=YOUR_PASSWORD; Data Source=YOUR_DB";
+            string ConStr = "User Id=hong1; Password=1111; Data Source=(DESCRIPTION =   (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))   (CONNECT_DATA =     (SERVER = DEDICATED)     (SERVICE_NAME = xe)   ) );";
 
             string sql = $@"
             SELECT 
-            ITEM_NAME AS 항목이름,
-            ITEM_NO AS 항목번호,
-            ANALYSIS_DATE AS 분석일자,
-            RISK_LEVEL AS 위험등급,
-            HEART_RATE AS 심박수,
-            BLOOD_PRESSURE AS 혈압
+                ITEM_NAME       AS ""항목이름"",
+                ITEM_NO         AS ""항목번호"",
+                ANALYSIS_DATE   AS ""분석일자"",
+                RISK_LEVEL       AS ""위험등급"",
+                HEART_RATE       AS ""심박수"",
+                BLOOD_PRESSURE   AS ""혈압""
             FROM HEALTH_ANALYSIS
             ORDER BY {orderBySql}";
 
             try
             {
-                using (OracleConnection conn = new OracleConnection(connStr))
-                using (OracleDataAdapter adapter = new OracleDataAdapter(sql, conn))
+                using (OracleConnection conn = new OracleConnection(ConStr))
                 {
-                    DataTable dt = new DataTable();
-                    adapter.Fill(dt);
+                    conn.Open();
 
-                    // Grid
-                    dataGridView1.DataSource = dt;
+                    using (OracleDataAdapter adapter = new OracleDataAdapter(sql, conn))
+                    {
+                        DataTable dt = new DataTable();
+                        adapter.Fill(dt);
 
-                    // Chart
-                    DrawChart(dt);
+                        // Grid
+                        dataGridView1.DataSource = dt;
+
+                        // Chart
+                        DrawChart(dt);
+                    }
                 }
             }
             catch (Exception ex)

@@ -113,7 +113,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(753, 690);
+            this.ClientSize = new System.Drawing.Size(764, 698);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.MinMaxSearchBtn);
