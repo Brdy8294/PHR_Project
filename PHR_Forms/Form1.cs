@@ -22,11 +22,10 @@ namespace PHR_Forms
         {
             try
             {
-                dbc.DB_Open("select count(*) from MEMBER_INFO", "CHECK_MEMBER");
-            }
-            catch (Exception)
-            {
-                try
+                string checkSql = "SELECT COUNT(*) FROM USER_TABLES WHERE TABLE_NAME = 'MEMBER_INFO'";
+                dbc.DB_Open(checkSql, "CHECK_MEMBER");
+
+                if (dbc.DS.Tables["CHECK_MEMBER"].Rows[0][0].ToString() == "0")
                 {
                     string createMemberSql = @"
                         CREATE TABLE MEMBER_INFO (
@@ -44,19 +43,18 @@ namespace PHR_Forms
                     string insertMemberSql = "INSERT INTO MEMBER_INFO (MEMBER_ID, NAME, EMAIL, CONTACT, PASSWORD) VALUES (1001, '홍길동', 'hong@test.com', '010-1234-5678', '1234')";
                     dbc.ExecuteNonQuery(insertMemberSql);
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("회원 테이블 생성 중 오류: " + ex.Message);
-                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("회원 테이블 점검 중 오류: " + ex.Message);
             }
 
             try
             {
-                dbc.DB_Open("select count(*) from THRESHOLD_SETTING", "CHECK_THRESHOLD");
-            }
-            catch (Exception)
-            {
-                try
+                string checkSql = "SELECT COUNT(*) FROM USER_TABLES WHERE TABLE_NAME = 'THRESHOLD_SETTING'";
+                dbc.DB_Open(checkSql, "CHECK_THRESHOLD");
+
+                if (dbc.DS.Tables["CHECK_THRESHOLD"].Rows[0][0].ToString() == "0")
                 {
                     string createThresholdSql = @"
                         CREATE TABLE THRESHOLD_SETTING (
@@ -70,18 +68,18 @@ namespace PHR_Forms
                         )";
                     dbc.ExecuteNonQuery(createThresholdSql);
 
-                    try
+                    dbc.DB_Open("SELECT COUNT(*) FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'SEQ_THRESHOLD_ID'", "CHECK_SEQ");
+                    if (dbc.DS.Tables["CHECK_SEQ"].Rows[0][0].ToString() == "0")
                     {
                         dbc.ExecuteNonQuery("CREATE SEQUENCE SEQ_THRESHOLD_ID START WITH 1 INCREMENT BY 1");
                     }
-                    catch { } 
 
-                    MessageBox.Show("모든 필수 테이블(회원, 임계치)이 자동 생성/확인되었습니다.", "시스템 준비 완료");
+                    MessageBox.Show("초기 설정이 완료되었습니다. (테이블 자동 생성됨)", "알림");
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("임계치 테이블 생성 중 오류: " + ex.Message);
-                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("임계치 테이블 점검 중 오류: " + ex.Message);
             }
         }
 
