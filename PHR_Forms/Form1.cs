@@ -22,14 +22,13 @@ namespace PHR_Forms
         {
             try
             {
-                dbc.DB_Open("select count(*) from MEMBER_INFO", "CHECK_TABLE");
-                return;
+                dbc.DB_Open("select count(*) from MEMBER_INFO", "CHECK_MEMBER");
             }
             catch (Exception)
             {
                 try
                 {
-                    string createSql = @"
+                    string createMemberSql = @"
                         CREATE TABLE MEMBER_INFO (
                             MEMBER_ID NUMBER(10) PRIMARY KEY,
                             NAME VARCHAR2(50) NOT NULL,
@@ -40,14 +39,48 @@ namespace PHR_Forms
                             JOIN_DATE DATE DEFAULT SYSDATE,
                             PASSWORD VARCHAR2(50) NOT NULL
                         )";
-                    dbc.ExecuteNonQuery(createSql);
+                    dbc.ExecuteNonQuery(createMemberSql);
 
-                    string insertSql = "INSERT INTO MEMBER_INFO (MEMBER_ID, NAME, EMAIL, CONTACT, PASSWORD) VALUES (1001, '홍길동', 'hong@test.com', '010-1234-5678', '1234')";
-                    dbc.ExecuteNonQuery(insertSql);
+                    string insertMemberSql = "INSERT INTO MEMBER_INFO (MEMBER_ID, NAME, EMAIL, CONTACT, PASSWORD) VALUES (1001, '홍길동', 'hong@test.com', '010-1234-5678', '1234')";
+                    dbc.ExecuteNonQuery(insertMemberSql);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("DB 초기화 중 오류: " + ex.Message);
+                    MessageBox.Show("회원 테이블 생성 중 오류: " + ex.Message);
+                }
+            }
+
+            try
+            {
+                dbc.DB_Open("select count(*) from THRESHOLD_SETTING", "CHECK_THRESHOLD");
+            }
+            catch (Exception)
+            {
+                try
+                {
+                    string createThresholdSql = @"
+                        CREATE TABLE THRESHOLD_SETTING (
+                            SET_ID NUMBER(10) PRIMARY KEY,
+                            MEMBER_ID NUMBER(10) NOT NULL,
+                            ITEM_CODE VARCHAR2(20) NOT NULL,
+                            UPPER_BOUND NUMBER(8, 2),
+                            LOWER_BOUND NUMBER(8, 2),
+                            REG_DATE DATE DEFAULT SYSDATE,
+                            CONSTRAINT FK_THRES_MEMBER FOREIGN KEY(MEMBER_ID) REFERENCES MEMBER_INFO(MEMBER_ID)
+                        )";
+                    dbc.ExecuteNonQuery(createThresholdSql);
+
+                    try
+                    {
+                        dbc.ExecuteNonQuery("CREATE SEQUENCE SEQ_THRESHOLD_ID START WITH 1 INCREMENT BY 1");
+                    }
+                    catch { } 
+
+                    MessageBox.Show("모든 필수 테이블(회원, 임계치)이 자동 생성/확인되었습니다.", "시스템 준비 완료");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("임계치 테이블 생성 중 오류: " + ex.Message);
                 }
             }
         }
@@ -86,9 +119,9 @@ namespace PHR_Forms
 
                     MessageBox.Show($"{UserSession.UserName}님 환영합니다!", "로그인 성공");
 
-                    // [테스트용] 바로 내 정보 수정창 띄우기
-                    MemberEditForm editForm = new MemberEditForm();
-                    editForm.ShowDialog();
+                    // [테스트] 로그인 성공 시 임계치 설정 화면 띄우기
+                    ThresholdForm thForm = new ThresholdForm();
+                    thForm.ShowDialog();
                 }
                 else
                 {
