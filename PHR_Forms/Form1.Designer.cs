@@ -40,56 +40,50 @@
             // lblTitle
             // 
             this.lblTitle.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.lblTitle.Location = new System.Drawing.Point(17, 12);
-            this.lblTitle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblTitle.Location = new System.Drawing.Point(24, 18);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(127, 25);
+            this.lblTitle.Size = new System.Drawing.Size(181, 38);
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "로그인 페이지";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(218, 91);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Location = new System.Drawing.Point(311, 136);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(16, 12);
+            this.label1.Size = new System.Drawing.Size(22, 18);
             this.label1.TabIndex = 1;
             this.label1.Text = "ID";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(171, 133);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Location = new System.Drawing.Point(244, 200);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(62, 12);
+            this.label2.Size = new System.Drawing.Size(90, 18);
             this.label2.TabIndex = 1;
             this.label2.Text = "Password";
             // 
             // txtUserId
             // 
-            this.txtUserId.Location = new System.Drawing.Point(260, 89);
-            this.txtUserId.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtUserId.Location = new System.Drawing.Point(371, 134);
             this.txtUserId.Name = "txtUserId";
-            this.txtUserId.Size = new System.Drawing.Size(107, 21);
+            this.txtUserId.Size = new System.Drawing.Size(151, 28);
             this.txtUserId.TabIndex = 2;
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(260, 127);
-            this.txtPassword.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtPassword.Location = new System.Drawing.Point(371, 190);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
-            this.txtPassword.Size = new System.Drawing.Size(107, 21);
+            this.txtPassword.Size = new System.Drawing.Size(151, 28);
             this.txtPassword.TabIndex = 2;
             // 
             // btnLogin
             // 
-            this.btnLogin.Location = new System.Drawing.Point(186, 217);
-            this.btnLogin.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnLogin.Location = new System.Drawing.Point(266, 326);
             this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(74, 33);
+            this.btnLogin.Size = new System.Drawing.Size(106, 50);
             this.btnLogin.TabIndex = 3;
             this.btnLogin.Text = "로그인";
             this.btnLogin.UseVisualStyleBackColor = true;
@@ -97,10 +91,9 @@
             // 
             // btnRegister
             // 
-            this.btnRegister.Location = new System.Drawing.Point(300, 217);
-            this.btnRegister.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnRegister.Location = new System.Drawing.Point(429, 326);
             this.btnRegister.Name = "btnRegister";
-            this.btnRegister.Size = new System.Drawing.Size(74, 33);
+            this.btnRegister.Size = new System.Drawing.Size(106, 50);
             this.btnRegister.TabIndex = 3;
             this.btnRegister.Text = "회원가입";
             this.btnRegister.UseVisualStyleBackColor = true;
@@ -108,9 +101,9 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(560, 300);
+            this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.btnRegister);
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.txtPassword);
@@ -118,7 +111,6 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblTitle);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);

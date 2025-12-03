@@ -1,74 +1,74 @@
-﻿using Oracle.DataAccess.Client;
-using PHR_Project;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System;
 using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using Oracle.DataAccess.Client;
+using PHR_Project;
 
 namespace PHR_Forms
 {
     public partial class OutlierListForm : Form
     {
         DBClass dbc = new DBClass();
+
         public OutlierListForm()
         {
             InitializeComponent();
             dbc.DB_ObjCreate();
         }
 
-        private void MinMaxSearchBtn_Click(object sender, EventArgs e)
+        private void btnSearch_Click(object sender, EventArgs e)
         {
-            if (!double.TryParse(txtMinWarning.Text, out double minWarning) ||
-                !double.TryParse(txtMaxWarning.Text, out double maxWarning))
-            {
-                MessageBox.Show("임계치를 올바르게 입력하세요.");
-                return;
-            }
-
-            string ConStr = "User Id=hong1; Password=1111; Data Source=(DESCRIPTION =   (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))   (CONNECT_DATA =     (SERVER = DEDICATED)     (SERVICE_NAME = xe)   ) );";
-
-            string sql = @"
-            SELECT 
-                VALUE_CODE AS ""수치코드"",
-                VALUE_NAME   AS ""수치이름"",
-                CURRENT_VALUE AS ""현재수치"",
-                MIN_WARNING  AS ""최소임계치"",
-                MAX_WARNING  AS ""최대임계치"",
-                MEASURE_DATE AS ""측정날짜""
-                FROM HEALTH_VALUE
-                WHERE CURRENT_VALUE < :MinWarning
-                OR CURRENT_VALUE > :MaxWarning
-                ORDER BY CURRENT_VALUE ASC";
-
             try
             {
-                using (OracleConnection conn = new OracleConnection(ConStr))
+                if (dbc.DS == null) dbc.DS = new DataSet();
+
+                string query = @"
+                    SELECT 
+                        H.MEASURE_DATE AS ""측정일"",
+                        H.ITEM_CODE AS ""항목"",
+                        H.MEASURE_VALUE AS ""나의수치"",
+                        T.UPPER_BOUND AS ""위험상한"",
+                        T.LOWER_BOUND AS ""위험하한""
+                    FROM HEALTH_DATA H
+                    JOIN THRESHOLD_SETTING T 
+                      ON H.MEMBER_ID = T.MEMBER_ID AND H.ITEM_CODE = T.ITEM_CODE
+                    WHERE H.MEMBER_ID = :id
+                      AND (H.MEASURE_VALUE > T.UPPER_BOUND OR H.MEASURE_VALUE < T.LOWER_BOUND)
+                    ORDER BY H.MEASURE_DATE DESC";
+
+                if (dbc.Connection.State != ConnectionState.Open)
+                    dbc.Connection.Open();
+
+                dbc.DBAdapter = new OracleDataAdapter();
+                dbc.DBAdapter.SelectCommand = new OracleCommand(query, dbc.Connection);
+                dbc.DBAdapter.SelectCommand.Parameters.Add("id", OracleDbType.Int32).Value = UserSession.MemberId;
+
+                if (dbc.DS.Tables.Contains("OUTLIER_LIST"))
+                    dbc.DS.Tables["OUTLIER_LIST"].Clear();
+
+                dbc.DBAdapter.Fill(dbc.DS, "OUTLIER_LIST");
+
+                dgvOutliers.DataSource = dbc.DS.Tables["OUTLIER_LIST"];
+                dgvOutliers.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+                if (dbc.DS.Tables["OUTLIER_LIST"].Rows.Count == 0)
                 {
-                    conn.Open();
-
-                    using (OracleCommand cmd = new OracleCommand(sql, conn))
-                    using (OracleDataAdapter adapter = new OracleDataAdapter(cmd))
-                    {
-                        cmd.Parameters.Add(":MinWarning", OracleDbType.Double).Value = minWarning;
-                        cmd.Parameters.Add(":MaxWarning", OracleDbType.Double).Value = maxWarning;
-
-                        DataTable dt = new DataTable();
-                        adapter.Fill(dt);
-
-                        dataGridView1.DataSource = dt;
-                    }
+                    MessageBox.Show("다행히 위험한 이상치가 발견되지 않았습니다!", "정상");
+                }
+                else
+                {
+                    MessageBox.Show($"총 {dbc.DS.Tables["OUTLIER_LIST"].Rows.Count}건의 이상치가 발견되었습니다.\n주의가 필요합니다!", "경고");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("오류 발생: " + ex.Message);
+                MessageBox.Show("분석 실패: " + ex.Message);
             }
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

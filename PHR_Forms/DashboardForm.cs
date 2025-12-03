@@ -1,71 +1,57 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting; 
 using Oracle.DataAccess.Client;
-using System.Windows.Forms.DataVisualization.Charting;
+using PHR_Project;
 
 namespace PHR_Forms
 {
     public partial class DashboardForm : Form
     {
+        DBClass dbc = new DBClass();
+
         public DashboardForm()
         {
             InitializeComponent();
+            dbc.DB_ObjCreate();
+
+            LoadDataAndChart("MEASURE_DATE ASC");
         }
 
-        private void DateArrayBtn_Click(object sender, EventArgs e)
+        private void LoadDataAndChart(string orderBy)
         {
-            LoadDashboard("ANALYSIS_DATE ASC");
-        }
-
-        private void HighArrayBtn_Click(object sender, EventArgs e)
-        {
-            LoadDashboard("RISK_LEVEL DESC");
-        }
-
-        private void LoadDashboard(string orderBySql)
-        {
-            string ConStr = "User Id=hong1; Password=1111; Data Source=(DESCRIPTION =   (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))   (CONNECT_DATA =     (SERVER = DEDICATED)     (SERVICE_NAME = xe)   ) );";
-
-            string sql = $@"
-            SELECT 
-                ITEM_NAME       AS ""항목이름"",
-                ITEM_NO         AS ""항목번호"",
-                ANALYSIS_DATE   AS ""분석일자"",
-                RISK_LEVEL       AS ""위험등급"",
-                HEART_RATE       AS ""심박수"",
-                BLOOD_PRESSURE   AS ""혈압""
-            FROM HEALTH_ANALYSIS
-            ORDER BY {orderBySql}";
-
             try
             {
-                using (OracleConnection conn = new OracleConnection(ConStr))
-                {
-                    conn.Open();
+                if (dbc.DS == null) dbc.DS = new DataSet();
 
-                    using (OracleDataAdapter adapter = new OracleDataAdapter(sql, conn))
-                    {
-                        DataTable dt = new DataTable();
-                        adapter.Fill(dt);
+                string query = $@"
+                    SELECT ITEM_CODE, MEASURE_VALUE, MEASURE_DATE 
+                    FROM HEALTH_DATA 
+                    WHERE MEMBER_ID = :id 
+                    ORDER BY {orderBy}";
 
-                        // Grid
-                        dataGridView1.DataSource = dt;
+                if (dbc.Connection.State != ConnectionState.Open)
+                    dbc.Connection.Open();
 
-                        // Chart
-                        DrawChart(dt);
-                    }
-                }
+                dbc.DBAdapter = new OracleDataAdapter();
+                dbc.DBAdapter.SelectCommand = new OracleCommand(query, dbc.Connection);
+                dbc.DBAdapter.SelectCommand.Parameters.Add("id", OracleDbType.Int32).Value = UserSession.MemberId;
+
+                if (dbc.DS.Tables.Contains("CHART_DATA"))
+                    dbc.DS.Tables["CHART_DATA"].Clear();
+
+                dbc.DBAdapter.Fill(dbc.DS, "CHART_DATA");
+                DataTable dt = dbc.DS.Tables["CHART_DATA"];
+
+                dgvList.DataSource = dt;
+                dgvList.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+                DrawChart(dt);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("오류: " + ex.Message);
+                MessageBox.Show("데이터 로드 실패: " + ex.Message);
             }
         }
 
@@ -73,19 +59,34 @@ namespace PHR_Forms
         {
             chart1.Series.Clear();
 
-            Series series = new Series("위험등급");
-            series.ChartType = SeriesChartType.Column;
+            Series series = new Series("건강수치");
+            series.ChartType = SeriesChartType.Column; 
+            series.IsValueShownAsLabel = true; 
 
             foreach (DataRow row in dt.Rows)
             {
-                series.Points.AddXY(
-                    row["항목이름"].ToString(),
-                    Convert.ToInt32(row["위험등급"])
-                );
+                string xValue = $"{row["ITEM_CODE"]}\n({Convert.ToDateTime(row["MEASURE_DATE"]).ToString("MM-dd")})"; // X축: 코드+날짜
+                double yValue = Convert.ToDouble(row["MEASURE_VALUE"]); 
+
+                series.Points.AddXY(xValue, yValue);
             }
 
             chart1.Series.Add(series);
-            chart1.ChartAreas[0].AxisX.Interval = 1;
+        }
+
+        private void btnSortDate_Click(object sender, EventArgs e)
+        {
+            LoadDataAndChart("MEASURE_DATE ASC");
+        }
+
+        private void btnSortValue_Click(object sender, EventArgs e)
+        {
+            LoadDataAndChart("MEASURE_VALUE DESC");
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
