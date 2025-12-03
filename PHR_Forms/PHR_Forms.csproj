@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -57,6 +57,18 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="HealthInputForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HealthInputForm.Designer.cs">
+      <DependentUpon>HealthInputForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HospitalForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HospitalForm.Designer.cs">
+      <DependentUpon>HospitalForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MemberEditForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -71,6 +83,7 @@
     <Compile Include="RegisterForm.Designer.cs">
       <DependentUpon>RegisterForm.cs</DependentUpon>
     </Compile>
+    <Content Include="SQL\PHR_Table.sql" />
     <Compile Include="ThresholdForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,6 +93,12 @@
     <Compile Include="UserSession.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HealthInputForm.resx">
+      <DependentUpon>HealthInputForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HospitalForm.resx">
+      <DependentUpon>HospitalForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MemberEditForm.resx">
       <DependentUpon>MemberEditForm.cs</DependentUpon>
@@ -113,7 +132,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="SQL\HospitalData_Setup.sql" />
     <Content Include="SQL\MEMBER_INFO_Table.sql" />
+    <Content Include="SQL\add_dml_test_data.sql" />
     <Content Include="SQL\THRESHOLD_SETTING_Table.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
