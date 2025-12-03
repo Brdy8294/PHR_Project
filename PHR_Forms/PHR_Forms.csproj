@@ -39,6 +39,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,6 +51,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DashboardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DashboardForm.Designer.cs">
+      <DependentUpon>DashboardForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DBClass.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -68,12 +75,23 @@
     </Compile>
     <Compile Include="HospitalForm.Designer.cs">
       <DependentUpon>HospitalForm.cs</DependentUpon>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MemberEditForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MemberEditForm.Designer.cs">
       <DependentUpon>MemberEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OutlierListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OutlierListForm.Designer.cs">
+      <DependentUpon>OutlierListForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -84,6 +102,8 @@
       <DependentUpon>RegisterForm.cs</DependentUpon>
     </Compile>
     <Content Include="SQL\PHR_Table.sql" />
+    <Content Include="SQL\HealthData.sql" />
+    <Content Include="SQL\HealthData2.sql" />
     <Compile Include="ThresholdForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -91,6 +111,9 @@
       <DependentUpon>ThresholdForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UserSession.cs" />
+    <EmbeddedResource Include="DashboardForm.resx">
+      <DependentUpon>DashboardForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -99,9 +122,14 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HospitalForm.resx">
       <DependentUpon>HospitalForm.cs</DependentUpon>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MemberEditForm.resx">
       <DependentUpon>MemberEditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OutlierListForm.resx">
+      <DependentUpon>OutlierListForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
