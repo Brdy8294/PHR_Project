@@ -102,7 +102,7 @@
             // txtCode
             // 
             this.txtCode.Location = new System.Drawing.Point(95, 130);
-            this.txtCode.Margin = new System.Windows.Forms.Padding(2);
+            this.txtCode.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtCode.Name = "txtCode";
             this.txtCode.ReadOnly = true;
             this.txtCode.Size = new System.Drawing.Size(150, 21);
@@ -111,7 +111,7 @@
             // txtMax
             // 
             this.txtMax.Location = new System.Drawing.Point(95, 160);
-            this.txtMax.Margin = new System.Windows.Forms.Padding(2);
+            this.txtMax.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtMax.Name = "txtMax";
             this.txtMax.Size = new System.Drawing.Size(150, 21);
             this.txtMax.TabIndex = 3;
@@ -119,7 +119,7 @@
             // txtMin
             // 
             this.txtMin.Location = new System.Drawing.Point(95, 189);
-            this.txtMin.Margin = new System.Windows.Forms.Padding(2);
+            this.txtMin.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtMin.Name = "txtMin";
             this.txtMin.Size = new System.Drawing.Size(150, 21);
             this.txtMin.TabIndex = 3;
@@ -127,7 +127,7 @@
             // btnInsert
             // 
             this.btnInsert.Location = new System.Drawing.Point(109, 237);
-            this.btnInsert.Margin = new System.Windows.Forms.Padding(2);
+            this.btnInsert.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnInsert.Name = "btnInsert";
             this.btnInsert.Size = new System.Drawing.Size(101, 35);
             this.btnInsert.TabIndex = 4;
@@ -139,7 +139,7 @@
             // 
             this.cmbItem.FormattingEnabled = true;
             this.cmbItem.Location = new System.Drawing.Point(95, 99);
-            this.cmbItem.Margin = new System.Windows.Forms.Padding(2);
+            this.cmbItem.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cmbItem.Name = "cmbItem";
             this.cmbItem.Size = new System.Drawing.Size(150, 20);
             this.cmbItem.TabIndex = 5;
@@ -150,7 +150,7 @@
             this.dgvList.AllowUserToAddRows = false;
             this.dgvList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvList.Location = new System.Drawing.Point(263, 59);
-            this.dgvList.Margin = new System.Windows.Forms.Padding(2);
+            this.dgvList.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dgvList.Name = "dgvList";
             this.dgvList.RowHeadersWidth = 62;
             this.dgvList.RowTemplate.Height = 30;
@@ -174,7 +174,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "ThresholdForm";
             this.Text = "ThresholdForm";
             ((System.ComponentModel.ISupportInitialize)(this.dgvList)).EndInit();
